@@ -48,7 +48,7 @@ def add_task():
     task = Task(task=request.json['task'])
     db.session.add(task)
     db.session.commit()
-    return {'id': task.id, 'created': task.created_at}
+    return {'id': task.id, 'created': task.created_at}, 201
 
 @app.route('/task/<id>', methods=['DELETE'])
 def delete_task(id):
@@ -58,7 +58,7 @@ def delete_task(id):
         return {"error": "not found"}
     db.session.delete(task)
     db.session.commit()
-    return {"message": "yeet"}
+    return {"message": "yeet"}, 204
 
 
 if __name__ == '__main__':
