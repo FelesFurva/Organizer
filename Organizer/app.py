@@ -5,6 +5,7 @@ It contains the definition of routes and views for the application.
 
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -17,10 +18,11 @@ wsgi_app = app.wsgi_app
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(120), nullable=False)
-    
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  
 
     def __repr__(self):
-        return f"{self.task}"
+        return f"{self.task} - {self.created_at}"
 
 
 @app.route('/')
@@ -35,20 +37,20 @@ def get_tasks():
 
     output = []
     for task in tasks:
-        task_data = {'ToDo':task.task}
+        task_data = {'ToDo':task.task, 'Created':task.created_at}
         
         output.append(task_data)
 
     return {"Tasks": output}
 
-@app.route('/tasks', methods=['POST'])
+@app.route('/task', methods=['POST'])
 def add_task():
-    task = Task(name=request.json['task'])
+    task = Task(task=request.json['task'])
     db.session.add(task)
     db.session.commit()
-    return {'id': task.id}
+    return {'id': task.id, 'created': task.created_at}
 
-@app.route('/tasks/<id>', methods=['DELETE'])
+@app.route('/task/<id>', methods=['DELETE'])
 def delete_task(id):
     
     task = Task.query.get(id)
