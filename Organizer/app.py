@@ -19,10 +19,11 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task = db.Column(db.String(120), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    completed = db.Column(db.Boolean, default=0)
 
     def __repr__(self):
-        return f"{self.task} - {self.created_at}"
+        return f"{self.task} - {self.created_at} - {self.completed}"
 
 
 @app.route('/')
@@ -37,7 +38,7 @@ def get_tasks():
 
     output = []
     for task in tasks:
-        task_data = {'ToDo':task.task, 'Created':task.created_at}
+        task_data = {'ToDo':task.task, 'Created':task.created_at, 'status':task.completed}
         
         output.append(task_data)
 
@@ -49,6 +50,19 @@ def add_task():
     db.session.add(task)
     db.session.commit()
     return {'id': task.id, 'created': task.created_at}, 201
+
+@app.route('/task/<id>', methods=['PUT'])
+def edit_task(id):
+
+    task = Task.query.get(id)
+    upd_task=request.json['task']
+    
+    Task.task = upd_task
+
+    if task is None:
+        return {"error": "not found"}
+    db.session.commit()
+    return {'id': task.id, 'edited task': task.task, 'updated': task.updated_at}, 200
 
 @app.route('/task/<id>', methods=['DELETE'])
 def delete_task(id):
