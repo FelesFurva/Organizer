@@ -31,39 +31,48 @@ def hello():
     """Renders a sample page."""
     return "Hello World!"
 
+"""Rebders the list of tasks"""
 @app.route('/tasks')
 def get_tasks():
-    """Rebders the list of tasks"""
+    
     tasks = Task.query.all()
 
     output = []
     for task in tasks:
-        task_data = {'ToDo':task.task, 'Created':task.created_at, 'status':task.completed}
+        task_data = {'ToDo':task.task, 'Created':task.created_at, 'status':task.completed, 'id': task.id}
         
         output.append(task_data)
 
     return {"Tasks": output}
 
+# create a new task
 @app.route('/task', methods=['POST'])
 def add_task():
     task = Task(task=request.json['task'])
+
     db.session.add(task)
     db.session.commit()
+
     return {'id': task.id, 'created': task.created_at}, 201
 
+# edit a task
 @app.route('/task/<id>', methods=['PUT'])
 def edit_task(id):
 
     task = Task.query.get(id)
-    upd_task=request.json['task']
-    
-    Task.task = upd_task
 
+    upd_task = request.json['task']
+    
+    task.task = upd_task 
+       
     if task is None:
         return {"error": "not found"}
+    
+    
     db.session.commit()
     return {'id': task.id, 'edited task': task.task, 'updated': task.updated_at}, 200
 
+# delete a task by id
 @app.route('/task/<id>', methods=['DELETE'])
 def delete_task(id):
     
