@@ -10,3 +10,6 @@ pip==22.0.3
 setuptools==60.8.2
 SQLAlchemy==1.4.31
 Werkzeug==2.0.3
+pytest==6.2.5
+pytest-cov==3.0.0
+
