@@ -19,3 +19,6 @@ setuptools==60.9.3
 SQLAlchemy==1.4.31
 tomli==2.0.1
 Werkzeug==2.0.3
+pytest==6.2.5
+pytest-cov==3.0.0
+
