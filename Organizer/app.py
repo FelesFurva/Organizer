@@ -1,5 +1,7 @@
 
 from project import create_app
+from project.models import Task
+from project.routes import tasks, hello
 
 app = create_app('flask.cfg')
 
