@@ -34,25 +34,19 @@ def add_task():
 def edit_task(id):
     """Updates a task"""
 
-    task = Task.query.get(id)
+    task = Task.query.get_or_404(id)
+         
+    task.task = request.json.get('task', task.task)
 
-    upd_task = request.json['task']
-    
-    task.task = upd_task 
-
-    if task is None:
-        return {"error": "not found"}
-    
     db.session.commit()
-    return {'id': task.id, 'edited task': task.task, 'updated': task.updated_at}, 200
+    return {'id': task.id, 'edited task': task.task, 'updated': task.updated_at}, 201
 
 @tasks.route('/task/<id>', methods=['DELETE'])
 def delete_task(id):
     """Deletes a task by id"""
     
-    task = Task.query.get(id)
-    if task is None:
-        return {"error": "not found"}
+    task = Task.query.get_or_404(id)
+
     db.session.delete(task)
     db.session.commit()
     return {"message": "yeet"}, 204
