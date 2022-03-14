@@ -1,4 +1,3 @@
-import unittest
 
 
 def test_root_request(client):

@@ -1,6 +1,6 @@
+from flask import Blueprint, request
 from project import db
 from project.models import Task
-from flask import Blueprint, request
 
 tasks = Blueprint("tasks",__name__)
 

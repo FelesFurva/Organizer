@@ -1,4 +1,3 @@
-import unittest
 
 
 def test_edit_of_existing_task(client):

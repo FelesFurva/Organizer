@@ -1,4 +1,3 @@
-import unittest
 
 from numbers import Number
 

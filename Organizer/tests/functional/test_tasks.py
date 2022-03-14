@@ -1,4 +1,3 @@
-import unittest
 
 
 def test_get_tasks(client):

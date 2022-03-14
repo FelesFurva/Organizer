@@ -1,5 +1,4 @@
 import pytest
-
 from flask import Flask
 from project import create_app, db
 
