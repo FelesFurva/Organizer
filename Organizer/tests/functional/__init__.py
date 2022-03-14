@@ -1,17 +1,15 @@
-import unittest
-
-
-import pytest
-
 from flask import Flask
-from project import create_app, db
+from flask_sqlalchemy import SQLAlchemy
 
-@pytest.fixture()
-def app():
-    app: Flask = create_app('flask_test.cfg')
-    app.config.update({"TESTING": True})    
-    yield app
+db = SQLAlchemy()
 
-@pytest.fixture()
-def client(app: Flask):
-    return app.test_client()
+def create_app(config_filename=None):
+     app = Flask(__name__, instance_relative_config=True)
+
+     from project.routes.hello import hello
+     from project.routes.tasks import tasks
+ 
+     app.register_blueprint(hello)
+     app.register_blueprint(tasks)
+
+     return app
