@@ -18,7 +18,7 @@ def get_tasks():
             "ToDo": task.task,
             "Created": task.created_at,
             "status": task.completed,
-            "id": task.id
+            "id": task.id,
         }
 
         output.append(task_data)
@@ -26,7 +26,7 @@ def get_tasks():
     return {"Tasks": output}
 
 
-@tasks.route('/task', methods=["POST"])
+@tasks.route("/task", methods=["POST"])
 def add_task():
     """Creates a new task"""
 
@@ -38,7 +38,7 @@ def add_task():
     return {"id": task.id, "created": task.created_at}, 201
 
 
-@tasks.route('/task/<id>', methods=["PUT"])
+@tasks.route("/task/<id>", methods=["PUT"])
 def edit_task(id):
     """Updates a task"""
 
@@ -49,7 +49,7 @@ def edit_task(id):
     return {"id": task.id, "edited task": task.task, "updated": task.updated_at}, 201
 
 
-@tasks.route('/task/<id>', methods=["DELETE"])
+@tasks.route("/task/<id>", methods=["DELETE"])
 def delete_task(id):
     """Deletes a task by id"""
 
