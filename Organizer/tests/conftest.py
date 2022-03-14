@@ -1,12 +1,12 @@
 import pytest
 from flask import Flask
-from project import create_app, db
+from project import create_app
 
 
 @pytest.fixture()
 def app():
     app: Flask = create_app("flask_test.cfg")
-    app.config.update({"TESTING": True})  
+    app.config.update({"TESTING": True})
     yield app
 
 
