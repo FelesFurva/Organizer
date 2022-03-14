@@ -1,7 +1,7 @@
 ﻿{
   "version": "1",
   "environments": [
-    // See https://aka.ms/remotetesting for more details
+    // See ..https://aka.ms/remotetesting for more details
     // about how to configure remote environments.
     //{
     //  "name": "WSL Ubuntu",
