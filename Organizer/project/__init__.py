@@ -1,8 +1,8 @@
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+
 
 def create_app(config_filename=None):
 
@@ -19,5 +19,5 @@ def create_app(config_filename=None):
 
     app.register_blueprint(hello)
     app.register_blueprint(tasks)
-    
+
     return app
