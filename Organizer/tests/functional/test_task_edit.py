@@ -1,5 +1,5 @@
-def test_edit_of_existing_task(client):
-    response = client.put("/task/3", json={"task": "first todo edited"})
+def test_edit_of_existing_task(client, prepare_data):
+    response = client.put("/task/3333", json={"task": "first todo edited"})
     assert 201 == response.status_code
 
 
