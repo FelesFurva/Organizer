@@ -23,14 +23,16 @@ jobs:
       - id: cache-pipenv
         uses: actions/cache@v1
         with:
-          path: ~/.local/share/virtualenvs
+          path: ~/Organizer/.local/share/virtualenvs
           key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
 
       - name: Install dependencies
         if: steps.cache-pipenv.outputs.cache-hit != 'true'
         run: |
+          cd Organizer
           pipenv install --deploy --dev
 
       - name: Run test suite
         run: |
+          cd Organizer
           pipenv run pytest -v
