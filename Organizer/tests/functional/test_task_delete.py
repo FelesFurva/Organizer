@@ -1,5 +1,5 @@
-def test_delete_task(client):
-    response = client.delete("/task/2")
+def test_delete_task(client, prepare_data):
+    response = client.delete("/task/777")
     assert 204 == response.status_code
 
 
