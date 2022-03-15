@@ -19,8 +19,12 @@ def client(app: Flask):
 
 @pytest.fixture()
 def prepare_data(app):
-    task2 = Task(id=7777, task="to be deleted")
-    task3 = Task(id=3333, task="to be edited")    
-    db.session.add(task2)
-    db.session.add(task3)
+    db.session.query(Task).filter(Task.id == 7777).delete()
+    db.session.query(Task).filter(Task.id == 3333).delete()
     db.session.commit()
+    task7777 = Task(id=7777, task="to be deleted")
+    task3333 = Task(id=3333, task="to be edited")
+    db.session.add(task7777)
+    db.session.add(task3333)
+    db.session.commit()
+    yield
