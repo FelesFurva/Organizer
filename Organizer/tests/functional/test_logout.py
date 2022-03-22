@@ -1,3 +1,5 @@
+from flask import session
+
 def test_logout(client, auth):
     auth.login()
 
