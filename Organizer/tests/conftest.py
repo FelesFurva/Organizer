@@ -1,8 +1,12 @@
 import pytest
 from flask import Flask
 from project import create_app, db
-from project.models import Task
+from project.models import Task, User
 
+@pytest.fixture(scope='module')
+def new_user():
+    user = User('testuser@gmail.com', 'TestPassword')
+    return user
 
 @pytest.fixture()
 def app():
