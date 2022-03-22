@@ -33,6 +33,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.py" />
+    <Compile Include="tests\functional\test_login.py" />
+    <Compile Include="tests\functional\test_logout.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\functional\test_user_edit.py" />
+    <Compile Include="tests\functional\test_user_delete.py" />
+    <Compile Include="tests\functional\test_user_create.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\functional\test_task_delete.py">
       <SubType>Code</SubType>
     </Compile>

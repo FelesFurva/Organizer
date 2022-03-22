@@ -1,12 +1,28 @@
 import pytest
 from flask import Flask
 from project import create_app, db
-from project.models import Task, User
+from project.models import Task
 
 @pytest.fixture(scope='module')
 def new_user():
-    user = User('testuser@gmail.com', 'TestPassword')
+    user = user('testuser@gmail.com', 'testpassword')
     return user
+
+@pytest.fixture()
+def prepare_data(app):
+    db.session.query(user).filter(user.id == 55555).delete()
+    db.session.query(user).filter(user.id == 33333).delete()
+    db.session.commit()
+    user55555 = user(id=55555, user="to be deleted")
+    user33333 = user(id=33333, user="to be edited")
+    db.session.add(user55555)
+    db.session.add(user33333)
+    db.session.commit()
+    yield
+
+@pytest.fixture
+def auth(client):
+    return AuthActions(client)
 
 @pytest.fixture()
 def app():
