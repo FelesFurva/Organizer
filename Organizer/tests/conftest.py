@@ -22,7 +22,7 @@ def new_user():
     return user
 
 @pytest.fixture()
-def prepare_data(app):
+def prepare_user(app):
     db.session.query(User).filter(User.id == 55555).delete()
     db.session.query(User).filter(User.id == 33333).delete()
     db.session.commit()
@@ -33,9 +33,9 @@ def prepare_data(app):
     db.session.commit()
     yield
 
-@pytest.fixture()
-def auth(client):
-    return AuthActions(client)
+#@pytest.fixture()
+#def auth(client):
+#    return AuthActions(client)
 
 
 @pytest.fixture()

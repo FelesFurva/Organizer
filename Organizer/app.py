@@ -1,5 +1,5 @@
 from project import create_app
-from project import db
+
 
 app = create_app("flask.cfg")
 
