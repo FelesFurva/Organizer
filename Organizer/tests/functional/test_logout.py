@@ -1,6 +1,8 @@
-from flask import session
+
+from project.models import User
 
 
 def test_logout(client):
-    with client: 
-        assert 'user_id' not in session
+    response = client.get("/logout")
+    assert response.status_code == 200
+    assert not isinstance(client, User)

@@ -1,11 +1,11 @@
 from functools import wraps
 
+
 from flask import Blueprint, redirect, Request
 from project import db
 from project.models import User
 from sqlalchemy.orm.session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-
 
 user = Blueprint("users", __name__, template_folder='templates',
     static_folder='static')
@@ -54,7 +54,7 @@ def login():
     return {"message": "Under construction"}, 404
 
 
-@user.route("/logout")
+@user.route("/logout", methods=("GET"))
 @login_required
 def logout():
 
