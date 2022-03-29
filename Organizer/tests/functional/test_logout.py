@@ -1,8 +1,8 @@
 from flask import session
 
-def test_logout(client, auth):
-    auth.login()
+from project.models import User
 
+def test_logout(client, user):
     with client:
-        auth.logout()
+        
         assert 'user_id' not in session
