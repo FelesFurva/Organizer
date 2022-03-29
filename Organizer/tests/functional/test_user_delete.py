@@ -1,4 +1,4 @@
-def test_deletion_of_existing_user(client):
+def test_deletion_of_existing_user(client, prepare_user):
     response = client.delete("/user/55555")
     assert 204 == response.status_code
 

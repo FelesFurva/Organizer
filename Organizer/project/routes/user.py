@@ -6,24 +6,24 @@ from project.models import User
 from sqlalchemy.orm.session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-user = Blueprint("users", __name__, template_folder="templates", static_folder="static")
+user = Blueprint("user", __name__)
 
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if Session.get("user_id") is None:
-            return {"message": "user id is non"}
+        if user = User.query.get(id) is None:
+            return {"message": "user id is none"}
         return f(*args, **kwargs)
 
     return decorated_function
 
 
-def set_password(self, password):
+def set_password(self):
     self.password = generate_password_hash((password)(str), method="sha256")
 
 
-def check_password(self, password):
+def check_password(self):
     return check_password_hash(self.password, password)
 
 
@@ -45,11 +45,11 @@ def register():
 
 
 @user.route("/login", methods=("GET", "POST"))
-def login():
+def login(id):
     if Request.method == "POST":
         user = User.query.filter_by(username=Request.json["username"]).firts()
         if user and user.check_password(Request.json["password"]):
-            # Session("user_id") = User.query.get(id)
+            user = User.query.get_or_404(id)
             return {"message": "Login successful"}, 200
         return {"message": "Invalid username/password combination"}
 
@@ -62,3 +62,13 @@ def logout():
 
     Session.clear()
     return {"message": "Logout successful"}, 200
+
+
+@user.post("/delete/<id>")
+def delete_user(id):
+
+    user = User.query.get_or_404(id)
+
+    db.session.delete(user)
+    db.session.commit()
+    return {"message": "User removed"}, 204
