@@ -1,15 +1,7 @@
 from functools import wraps
 
-from flask import (
-    Blueprint, 
-    g, 
-    redirect, 
-    render_template, 
-    request, 
-    sessions,
-    url_for
-    )
-
+from flask import Blueprint, redirect, Request
+ 
 from project import db
 from project.models import User
 from sqlalchemy.orm.session import Session
@@ -34,11 +26,11 @@ def check_password(self, password):
 
 @user.route("/register", methods=("GET", "POST"))
 def register():
-    if request.method == "POST":
-        if not request.json["username"] or not request.json["password"]:
+    if Request.method == "POST":
+        if not Request.json["username"] or not Request.json["password"]:
             return {"message": "Please fill out all fields"}
         else:
-            user =User(username = request.json["username"],  password_hash = generate_password_hash(request.json["password"]))
+            user =User(username = Request.json["username"],  password_hash = generate_password_hash(request.json["password"]))
 
         db.session.add(user)
         db.session.commit()
@@ -47,9 +39,9 @@ def register():
 
 @user.route("/login", methods=("GET", "POST"))
 def login():
-    if request.method == 'POST':
-        user = User.query.filter_by(username=request.json["username"]).firts()
-        if user and user.check_password(request.json["password"]):
+    if Request.method == 'POST':
+        user = User.query.filter_by(username=Request.json["username"]).firts()
+        if user and user.check_password(Request.json["password"]):
             Session("user_id") = User.query.get(id)
             return {"message": "Login successful"}, 200
         return {"message": "Invalid username/password combination"}
