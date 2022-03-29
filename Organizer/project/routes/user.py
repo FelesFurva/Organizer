@@ -36,7 +36,7 @@ def register():
             user = User(
                 username=Request.json["username"],
                 password_hash=generate_password_hash(Request.json["password"])
-        )
+            )
 
         db.session.add(user)
         db.session.commit()
