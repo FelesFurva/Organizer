@@ -1,7 +1,14 @@
 from datetime import datetime
-
 from project import db
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(40), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    
+    def __repr__(self):
+        return f"{self.email} - {self.password_hash} - {self.username}"
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -13,13 +20,3 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"{self.task} - {self.created_at} - {self.completed}"
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(120), unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-
-    def __repr__(self):
-        return f"{self.email} - {self.password_hash} - {self.username}"
