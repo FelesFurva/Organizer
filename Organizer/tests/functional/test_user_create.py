@@ -6,6 +6,7 @@ def test_user_create_post(client):
     assert 201 == response.status_code
     assert isinstance(response.json["id"], Number)
 
+
 def test_user_create_get(client):
     response = client.get("/register")
     assert 404 == response.status_code

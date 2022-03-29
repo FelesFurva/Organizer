@@ -1,14 +1,15 @@
 from functools import wraps
 
 from flask import Blueprint, redirect, Request
- 
 from project import db
 from project.models import User
 from sqlalchemy.orm.session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-user = Blueprint("users", __name__,template_folder='templates',
+
+user = Blueprint("users", __name__, template_folder='templates',
     static_folder='static')
+
 
 def login_required(f):
     @wraps(f)
@@ -18,11 +19,14 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 def set_password(self, password):
     self.password = generate_password_hash((password) (str), method="sha256")
 
+
 def check_password(self, password):
     return check_password_hash(self.password, password)
+
 
 @user.route("/register", methods=("GET", "POST"))
 def register():
@@ -30,12 +34,13 @@ def register():
         if not Request.json["username"] or not Request.json["password"]:
             return {"message": "Please fill out all fields"}
         else:
-            user =User(username = Request.json["username"],  password_hash = generate_password_hash(request.json["password"]))
+            user = User(username=Request.json["username"], password_hash=generate_password_hash(Request.json["password"]))
 
         db.session.add(user)
         db.session.commit()
         return {"message": "Account succesfully created"}, 201
     return {"message": "Under construction"}, 404
+
 
 @user.route("/login", methods=("GET", "POST"))
 def login():
@@ -47,6 +52,7 @@ def login():
         return {"message": "Invalid username/password combination"}
 
     return {"message": "Under construction"}, 404
+
 
 @user.route("/logout")
 @login_required
