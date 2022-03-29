@@ -8,7 +8,7 @@ class User(db.Model):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(40), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
- 
+
     def __repr__(self):
         return f"{self.email} - {self.password_hash} - {self.username}"
 

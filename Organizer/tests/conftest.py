@@ -17,9 +17,9 @@ def client(app: Flask):
     return app.test_client()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def new_user():
-    user = User('testuser@gmail.com', 'testpassword')
+    user = User("testuser@gmail.com", "testpassword")
     return user
 
 
