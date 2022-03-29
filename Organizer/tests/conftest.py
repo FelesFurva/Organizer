@@ -16,10 +16,12 @@ def app():
 def client(app: Flask):
     return app.test_client()
 
+
 @pytest.fixture(scope='module')
 def new_user():
     user = User('testuser@gmail.com', 'testpassword')
     return user
+
 
 @pytest.fixture()
 def prepare_user(app):
@@ -32,10 +34,6 @@ def prepare_user(app):
     db.session.add(user33333)
     db.session.commit()
     yield
-
-#@pytest.fixture()
-#def auth(client):
-#    return AuthActions(client)
 
 
 @pytest.fixture()

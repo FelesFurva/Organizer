@@ -1,4 +1,5 @@
 from functools import wraps
+
 from flask import (
     Blueprint, 
     g, 
@@ -8,9 +9,10 @@ from flask import (
     sessions,
     url_for
     )
-from sqlalchemy.orm.session import Session
+
 from project import db
 from project.models import User
+from sqlalchemy.orm.session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 user = Blueprint("users", __name__,template_folder='templates',
@@ -48,7 +50,7 @@ def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.json["username"]).firts()
         if user and user.check_password(request.json["password"]):
-            Session["user_id"] = User.query.get(id)
+            Session("user_id") = User.query.get(id)
             return {"message": "Login successful"}, 200
         return {"message": "Invalid username/password combination"}
 
