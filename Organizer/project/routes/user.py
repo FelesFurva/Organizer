@@ -27,7 +27,7 @@ def check_password(self):
     return check_password_hash(self.password, password)
 
 
-@user.route("/register", methods=("GET", "POST"))
+@user.route("/register", methods=["GET", "POST"])
 def register():
     if Request.method == "POST":
         if not Request.json["username"] or not Request.json["password"]:
@@ -44,7 +44,7 @@ def register():
     return {"message": "Under construction"}, 404
 
 
-@user.route("/login", methods=("GET", "POST"))
+@user.route("/login", methods=["GET", "POST"])
 def login(id):
     if Request.method == "POST":
         user = User.query.filter_by(username=Request.json["username"]).firts()
@@ -56,7 +56,7 @@ def login(id):
     return {"message": "Under construction"}, 404
 
 
-@user.route("/logout", methods=("GET"))
+@user.route("/logout", methods=["GET"])
 @login_required
 def logout():
 
@@ -64,7 +64,7 @@ def logout():
     return {"message": "Logout successful"}, 200
 
 
-@user.post("/delete/<id>")
+@user.post("/user/<id>", , methods=["DELETE"])
 def delete_user(id):
 
     user = User.query.get_or_404(id)
