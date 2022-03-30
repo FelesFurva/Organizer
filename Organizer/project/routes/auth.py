@@ -42,7 +42,7 @@ def signup():
 
 
 @auth.route("/login", methods=["GET", "POST"])
-def login(id):
+def login():
     if Request.method == "POST":
         email = Request.json["email"]
         password = Request.json["password"]
@@ -58,7 +58,6 @@ def login(id):
 @auth.route("/logout")
 @login_required
 def logout():
-
     logout_user()
     return {"message": "Logout successful"}, 200
 

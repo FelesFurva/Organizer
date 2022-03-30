@@ -1,6 +1,8 @@
 from flask import Flask
+import flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask import Numbers
 
 db = SQLAlchemy()
 
@@ -15,14 +17,17 @@ def create_app(config_filename=None):
     db.init_app(app)
     
     login_manager = LoginManager()
-    login_manager.login.view = 'auth.login'
     login_manager.init_app(app)
+    login_manager.login.view = "users.login"
+    
     
     from project.models import User
 
     @login_manager.user_loader
     def load_user(id):
-        return User.query.get(int(id))
+        return User.query.filter_by(alternative_id=id).first()
+    def get_id(self):
+        return str(self.alternative_id)
 
     db.create_all(app=app)
 
