@@ -12,7 +12,7 @@ user = Blueprint("user", __name__)
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if user = User.query.get(id) is None:
+        if User.query.get(id) is None:
             return {"message": "user id is none"}
         return f(*args, **kwargs)
 
@@ -20,11 +20,11 @@ def login_required(f):
 
 
 def set_password(self):
-    self.password = generate_password_hash((password)(str), method="sha256")
+    self.password_hash = generate_password_hash((password)(str), method="sha256")
 
 
 def check_password(self):
-    return check_password_hash(self.password, password)
+    return check_password_hash(self.password_hash, password)
 
 
 @user.route("/register", methods=["GET", "POST"])
@@ -64,7 +64,7 @@ def logout():
     return {"message": "Logout successful"}, 200
 
 
-@user.post("/user/<id>", , methods=["DELETE"])
+@user.post("/user/<id>", methods=["DELETE"])
 def delete_user(id):
 
     user = User.query.get_or_404(id)
