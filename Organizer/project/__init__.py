@@ -19,7 +19,6 @@ def create_app(config_filename=None):
     login_manager.init_app(app)
     login_manager.login_view = "users.login"
     
-    
     from project.models import User
 
     @login_manager.user_loader

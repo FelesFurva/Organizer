@@ -37,7 +37,7 @@ def signup():
 
         db.session.add(new_user)
         db.session.commit()
-        return {"id": user.id, "message": "Account succesfully created"}, 201
+        return {"id": user.id, "message": "Account successfully created"}, 201
     return {"message": "Under construction"}, 404
 
 
@@ -53,7 +53,6 @@ def login():
         login_user(user)
         return {"message": "Login successful"}, 200
     return {"message": "Under construction"}, 404
-
 
 
 @auth.route("/logout", methods=["GET"])
