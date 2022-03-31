@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 flask_sqlalchemy = "*"
+flask_login = "*"
 Jinja2 = "*"
 pytest = "*"
 pytest-cov = "*"
