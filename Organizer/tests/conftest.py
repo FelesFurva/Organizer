@@ -2,6 +2,7 @@ import pytest
 from flask import Flask
 from project import create_app, db
 from project.models import Task, User
+from werkzeug.security import generate_password_hash
 
 
 @pytest.fixture()
@@ -28,8 +29,8 @@ def prepare_user(app):
     db.session.query(User).filter(User.id == 55555).delete()
     db.session.query(User).filter(User.id == 33333).delete()
     db.session.commit()
-    user55555 = User(id=55555, user="to be deleted")
-    user33333 = User(id=33333, user="to be edited")
+    user55555 = User(id=55555, username="to be deleted", email="a@b.com" password_hash=generate_password_hash("123456", method="sha256"))
+    user33333 = User(id=33333, username="to be edited", email="a@b.com" password_hash=generate_password_hash("123456", method="sha256"))
     db.session.add(user55555)
     db.session.add(user33333)
     db.session.commit()
