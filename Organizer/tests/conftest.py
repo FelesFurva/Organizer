@@ -24,6 +24,13 @@ def new_user():
 
 
 @pytest.fixture()
+def delete_all_users(app):
+    db.session.query(User).delete()
+    db.session.commit()
+    yield
+
+    
+@pytest.fixture()
 def prepare_user(app):
     db.session.query(User).filter(User.id == 55555).delete()
     db.session.query(User).filter(User.id == 33333).delete()
