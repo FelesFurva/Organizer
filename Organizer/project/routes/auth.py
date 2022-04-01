@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Blueprint, Request
+from flask import Blueprint, request, jsonify
 from flask_login import login_user, logout_user
 from project import db
 from project.models import User
@@ -21,13 +21,13 @@ def login_required(f):
 
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
-    if Request.method == "POST":
+    if request.method == "POST":
 
-        email=Request.json["email"]
-        username=Request.json["username"]
-        password=Request.json["password"]
+        email=request.json["email"]
+        username=request.json["username"]
+        password=request.json["password"]
         
-        if not Request.json["username"] or not Request.json["password"] or not Request.json["email"]:
+        if not request.json["username"] or not request.json["password"] or not request.json["email"]:
             return {"message": "Please fill out all fields"}
         else:
             user = User.query.filter_by(email=email).first()
@@ -37,17 +37,17 @@ def signup():
 
         db.session.add(new_user)
         db.session.commit()
-        return {"id": user.id, "message": "Account successfully created"}, 201
-    return {"message": "Under construction"}, 404
+        return jsonify({"id": new_user.id, "message": "Account successfully created"}), 201
+    return jsonify({"message": "Under construction"}), 404
 
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
-    if Request.method == "POST":
-        email = Request.json["email"]
-        password = Request.json["password"]
+    if request.method == "POST":
+        email = request.json["email"]
+        password = request.json["password"]
 
-        user = User.query.filter_by(email=email).firts()
+        user = User.query.filter_by(email=email).first()
         if not user or not check_password_hash(user.password_hash, password):
             return {"message": "Invalid username/password combination"}
         login_user(user)
