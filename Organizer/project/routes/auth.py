@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_login import login_user, logout_user
 from project import db
 from project.models import User
@@ -37,8 +37,8 @@ def signup():
 
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"id": new_user.id, "message": "Account successfully created"}), 201
-    return jsonify({"message": "Under construction"}), 404
+        return {"id": new_user.id, "message": "Account successfully created"}, 201
+    return {"message": "Under construction"}, 404
 
 
 @auth.route("/login", methods=["GET", "POST"])
