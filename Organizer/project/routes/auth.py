@@ -19,13 +19,12 @@ def signup():
             return {"message": "Please fill out all fields"}
         else:
             user = User.query.filter_by(email=email).first()
-            if user:
-                return {"message": "User already exists"}
-            new_user = User(username=username, password_hash=generate_password_hash(password, method="sha256"), email=email)
+
+            user = User(username=username, password_hash=generate_password_hash(password, method="sha256"), email=email)
 
         db.session.add(user)
         db.session.commit()
-        return {"id": new_user.id, "message": "Account successfully created"}, 201
+        return {"id": user.id, "message": "Account successfully created"}, 201
     return {"message": "Under construction"}, 404
 
 
@@ -39,9 +38,9 @@ def login():
         if not user or not check_password_hash(user.password_hash, password):
             return {"message": "Invalid username/password combination"}
         login_user(user)
-        return {"message": "Login successful"}, 200
+        return {"id": user.id, "message": "Login successful"}, 200
 
-@auth.route("/user/<id>", method=["PUT"])
+@auth.route("/user/<id>", methods=["PUT"])
 def edit_user(id):
 
     user = User.query.get_or_404(id)
