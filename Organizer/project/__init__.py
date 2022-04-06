@@ -1,5 +1,3 @@
-from flask import Flask
-import flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
@@ -14,16 +12,17 @@ def create_app(config_filename=None):
         app.config.from_pyfile(config_filename)
 
     db.init_app(app)
-    
+
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = "users.login"
-    
+
     from project.models import User
 
     @login_manager.user_loader
     def load_user(id):
         return User.query.filter_by(alternative_id=id).first()
+
     def get_id(self):
         return str(self.alternative_id)
 
