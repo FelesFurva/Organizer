@@ -11,16 +11,11 @@ auth = Blueprint("auth", __name__)
 def signup():
     if request.method == "POST":
 
-        if not request.json["username"] or not request.json["password"] or not request.json["email"]:  
         email=request.json["email"]
         username=request.json["username"]
         password=request.json["password"]
-
-        if (
-            not request.json["username"]
-            or not request.json["password"]
-            or not request.json["email"]
-        ):
+        
+        if not request.json["username"] or not request.json["password"] or not request.json["email"]:
             return {"message": "Please fill out all fields"}
         else:
             user = User.query.filter_by(email=email).first()
@@ -48,7 +43,6 @@ def login():
             return {"message": "Invalid username/password combination"}, 404
         login_user(user)
         return {"id": user.id, "message": "Login successful"}, 200
-
 
 @auth.route("/user/<id>", methods=["PUT"])
 def edit_user(id):
