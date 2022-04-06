@@ -31,7 +31,6 @@ def delete_all_users(app):
     yield
 
 
-
 @pytest.fixture()
 def prepare_user(app):
     db.session.query(User).filter(User.id == 55555).delete()
