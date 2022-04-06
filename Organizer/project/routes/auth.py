@@ -36,7 +36,7 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if not user or not check_password_hash(user.password_hash, password):
-            return {"message": "Invalid username/password combination"}
+            return {"message": "Invalid username/password combination"}, 404
         login_user(user)
         return {"id": user.id, "message": "Login successful"}, 200
 
