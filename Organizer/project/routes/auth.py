@@ -16,9 +16,9 @@ def signup():
         password = request.json["password"]
 
         if (
-            not request.json["username"] or 
-            not request.json["password"] or 
-            not request.json["email"]
+            not request.json["username"]
+            or not request.json["password"]
+            or not request.json["email"]
         ):
             return {"message": "Please fill out all fields"}
         else:
