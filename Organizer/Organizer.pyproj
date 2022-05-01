@@ -38,15 +38,13 @@
     <Compile Include="project\routes\hello.py" />
     <Compile Include="project\routes\tasks.py" />
     <Compile Include="project\__init__.py" />
+    <Compile Include="tests\functional\test_user_signup.py" />
     <Compile Include="tests\functional\test_user_login.py" />
     <Compile Include="tests\functional\test_user_logout.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\functional\test_user_edit.py" />
     <Compile Include="tests\functional\test_user_delete.py" />
-    <Compile Include="tests\functional\test_user_signup.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="tests\functional\test_task_delete.py">
       <SubType>Code</SubType>
     </Compile>

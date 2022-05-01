@@ -32,14 +32,14 @@ def login_user(client):
 
 
 @pytest.fixture()
-def delete_all_users(app):
+def delete_all_users():
     db.session.query(User).delete()
     db.session.commit()
     yield
 
 
 @pytest.fixture()
-def prepare_user(app):
+def prepare_user():
     db.session.query(User).filter(User.id == 55555).delete()
     db.session.query(User).filter(User.id == 33333).delete()
     db.session.commit()
@@ -62,7 +62,7 @@ def prepare_user(app):
 
 
 @pytest.fixture()
-def prepare_data(app):
+def prepare_data():
     db.session.query(Task).filter(Task.id == 7777).delete()
     db.session.query(Task).filter(Task.id == 3333).delete()
     db.session.commit()

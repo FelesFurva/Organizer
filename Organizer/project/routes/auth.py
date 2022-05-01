@@ -19,7 +19,7 @@ def signup():
         or not request.json["password"]
         or not request.json["email"]
     ):
-        return {"message": "Please fill out all fields"}
+        return {"message": "Please fill out all fields"}, 404
     else:
         user = User.query.filter_by(email=email).first()
 
