@@ -25,6 +25,13 @@ def new_user():
 
 
 @pytest.fixture()
+def login_user(client):
+    user = {"email": "c@d.com", "password": "123456"}
+    response = client.post("/login", json=user, follow_redirects = True)
+    yield response
+
+
+@pytest.fixture()
 def delete_all_users(app):
     db.session.query(User).delete()
     db.session.commit()
@@ -65,3 +72,16 @@ def prepare_data(app):
     db.session.add(task3333)
     db.session.commit()
     yield
+
+
+@pytest.fixture(scope="session", autouse=True)
+def callattr_ahead_of_alltests(request):
+    print("callattr_ahead_of_alltests called")
+    seen = {None}
+    session = request.node
+    for item in session.items:
+        cls = item.getparent(pytest.Class)
+        if cls not in seen:
+            if hasattr(cls.obj, "callme"):
+                cls.obj.callme()
+            seen.add(cls)

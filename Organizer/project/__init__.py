@@ -16,16 +16,22 @@ def create_app(config_filename=None):
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = "users.login"
+    login_manager.login_view = "auth.login"
+    #login_manager.unauthorized
+    #login_manager.login_message = "Please log in to access this page."
 
     from project.models import User
 
     @login_manager.user_loader
     def load_user(id):
-        return User.query.filter_by(alternative_id=id).first()
+        return User.query.filter_by(id=id).first()
 
     def get_id(self):
-        return str(self.alternative_id)
+        return str(self.id)
+
+    #@login_manager.unauthorized_handler
+    #def unauthorized():
+    #    return {"message": "Unauthorized"}, 401
 
     db.create_all(app=app)
 

@@ -62,6 +62,7 @@
     <Compile Include="tests\functional\test_tasks.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\conftest.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="project\routes\__pycache__\auth.cpython-39.pyc" />

@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_user, logout_user
+from flask_login.utils import login_required
 from project import db
 from project.models import User
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -9,8 +10,6 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/signup", methods=["POST"])
 def signup():
-    if request.method == "POST":
-
         email = request.json["email"]
         username = request.json["username"]
         password = request.json["password"]
@@ -33,23 +32,22 @@ def signup():
         db.session.add(user)
         db.session.commit()
         return {"id": user.id, "message": "Account successfully created"}, 201
-    return {"message": "Under construction"}, 404
 
 
 @auth.route("/login", methods=["POST"])
 def login():
-    if request.method == "POST":
-        email = request.json["email"]
-        password = request.json["password"]
+    email = request.json["email"]
+    password = request.json["password"]
 
-        user = User.query.filter_by(email=email).first()
-        if not user or not check_password_hash(user.password_hash, password):
-            return {"message": "Invalid username/password combination"}, 404
-        login_user(user)
-        return {"id": user.id, "message": "Login successful"}, 200
+    user = User.query.filter_by(email=email).first()
+    if not user or not check_password_hash(user.password_hash, password):
+        return {"message": "Invalid username/password combination"}, 401
+    login_user(user)
+    return {"id": user.id, "message": "Login successful"}, 200
 
 
 @auth.route("/user/<id>", methods=["PUT"])
+@login_required
 def edit_user(id):
 
     user = User.query.get_or_404(id)
@@ -61,13 +59,14 @@ def edit_user(id):
 
 
 @auth.route("/logout", methods=["GET"])
-# @login_required
+@login_required
 def logout():
     logout_user()
     return {"message": "Logout successful"}, 200
 
 
 @auth.route("/user/<id>", methods=["DELETE"])
+@login_required
 def delete_user(id):
 
     user = User.query.get_or_404(id)

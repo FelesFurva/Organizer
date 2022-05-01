@@ -1,4 +1,6 @@
 from flask import Blueprint, request
+from flask_login import login_user, logout_user
+from flask_login.utils import login_required
 from project import db
 from project.models import Task
 
@@ -6,6 +8,7 @@ tasks = Blueprint("tasks", __name__)
 
 
 @tasks.route("/tasks")
+@login_required
 def get_tasks():
 
     """Reads the list of tasks"""
@@ -23,10 +26,11 @@ def get_tasks():
 
         output.append(task_data)
 
-    return {"Tasks": output}
+    return {"Tasks": output}, 200
 
 
 @tasks.route("/task", methods=["POST"])
+@login_required
 def add_task():
     """Creates a new task"""
 
@@ -39,6 +43,7 @@ def add_task():
 
 
 @tasks.route("/task/<id>", methods=["PUT"])
+@login_required
 def edit_task(id):
     """Updates a task"""
 
@@ -50,6 +55,7 @@ def edit_task(id):
 
 
 @tasks.route("/task/<id>", methods=["DELETE"])
+@login_required
 def delete_task(id):
     """Deletes a task by id"""
 
