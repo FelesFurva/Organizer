@@ -27,7 +27,7 @@ def new_user():
 @pytest.fixture()
 def login_user(client):
     user = {"email": "c@d.com", "password": "123456"}
-    response = client.post("/login", json=user, follow_redirects = True)
+    response = client.post("/login", json=user, follow_redirects=True)
     yield response
 
 

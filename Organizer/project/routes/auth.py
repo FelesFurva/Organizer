@@ -10,28 +10,28 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/signup", methods=["POST"])
 def signup():
-        email = request.json["email"]
-        username = request.json["username"]
-        password = request.json["password"]
+    email = request.json["email"]
+    username = request.json["username"]
+    password = request.json["password"]
 
-        if (
-            not request.json["username"]
-            or not request.json["password"]
-            or not request.json["email"]
-        ):
-            return {"message": "Please fill out all fields"}
-        else:
-            user = User.query.filter_by(email=email).first()
+    if (
+        not request.json["username"]
+        or not request.json["password"]
+        or not request.json["email"]
+    ):
+        return {"message": "Please fill out all fields"}
+    else:
+        user = User.query.filter_by(email=email).first()
 
-            user = User(
-                username=username,
-                password_hash=generate_password_hash(password, method="sha256"),
-                email=email,
-            )
+        user = User(
+            username=username,
+            password_hash=generate_password_hash(password, method="sha256"),
+            email=email,
+        )
 
-        db.session.add(user)
-        db.session.commit()
-        return {"id": user.id, "message": "Account successfully created"}, 201
+    db.session.add(user)
+    db.session.commit()
+    return {"id": user.id, "message": "Account successfully created"}, 201
 
 
 @auth.route("/login", methods=["POST"])
