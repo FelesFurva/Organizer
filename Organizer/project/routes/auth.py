@@ -52,7 +52,8 @@ def edit_user(id):
 
     user = User.query.get_or_404(id)
     user.user = request.json.get("username", user.username)
-
+    #if user.username and not user.username.strip():
+    #    return {"message": "Input new username"}, 400
     db.session.commit()
 
     return {"id": user.id, "username": user.username}, 201

@@ -1,20 +1,19 @@
+import pytest
 from numbers import Number
 
+testdata = [
+    ("c@d.com", "123456", 200, True),
+    ("c@d.com", "", 401, False),
+    ("", "123456", 401, False),
+    ("", "", 401, False),
+]
 
-def test_user_login_post(client):
-    user = {"email": "c@d.com", "password": "123456"}
-    response = client.post("/login", json=user)
-    assert 200 == response.status_code
-    assert isinstance(response.json["id"], Number)
+@pytest.mark.parametrize("email,password,code,isnumber", testdata)
+def test_user_login_post(email, password, code, isnumber, client, prepare_user):
+    response = client.post("/login", json={"email": email, "password": password})
+    assert code == response.status_code
+    hasId = bool(
+        response.json.get('id', False) and isinstance(response.json["id"], Number)
+    )
 
-
-def test_user_login_missing_email(client):
-    user = {"email": "", "password": "123456"}
-    response = client.post("/login", json=user)
-    assert 401 == response.status_code
-
-
-def test_user_login_missing_password(client):
-    user = {"email": "c@d.com", "password": ""}
-    response = client.post("/login", json=user)
-    assert 401 == response.status_code
+    assert hasId == isnumber

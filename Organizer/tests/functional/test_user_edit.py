@@ -1,12 +1,13 @@
-def test_edit_of_existing_user(client, login_user):
-    response = client.put(
-        "/user/33333", json={"username": "Charlly"}, follow_redirects=True
-    )
-    assert 201 == response.status_code
+import pytest
 
+testdata = [
+    (33333, "Charlly", 201),
+    (1111, "Charlly", 404)
+]
 
-def test_edit_of_not_existing_user_none(client, login_user):
+@pytest.mark.parametrize("id,newusername,code", testdata)
+def test_edit_of_existing_user(id, newusername, code, client, prepare_user, login_user):
     response = client.put(
-        "/user/1111", json={"username": "not there"}, follow_redirects=True
+        f'/user/{id}', json={"username": newusername}, follow_redirects=True
     )
-    assert 404 == response.status_code
+    assert code == response.status_code
