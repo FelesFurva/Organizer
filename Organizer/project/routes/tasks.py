@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-from flask_login import login_user, logout_user
 from flask_login.utils import login_required
 from project import db
 from project.models import Task
