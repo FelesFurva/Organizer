@@ -61,6 +61,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\conftest.py" />
+    <Compile Include="utils\UserManager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="utils\TaskManager.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="project\routes\__pycache__\auth.cpython-39.pyc" />
@@ -83,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="instance\" />
+    <Folder Include="utils\" />
     <Folder Include="project\" />
     <Folder Include="project\routes\" />
     <Folder Include="project\routes\__pycache__\" />

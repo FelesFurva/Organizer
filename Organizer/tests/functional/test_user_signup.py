@@ -11,7 +11,7 @@ testdata = [
 ]
 
 @pytest.mark.parametrize("username,email,password,code,isnumber", testdata)
-def test_create_user(username, email, password, code, isnumber, client, delete_all_users):
+def test_create_user(username, email, password, code, isnumber, client, user_manager):
     user = {
         "username": username,
         "email": email,
@@ -19,3 +19,6 @@ def test_create_user(username, email, password, code, isnumber, client, delete_a
     }
     response = client.post("/signup", json=user)
     assert code == response.status_code
+    user_id = user_manager.get_id_by_username(username)
+    if user_id:
+        user_manager.delete(user_id)

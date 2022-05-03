@@ -1,9 +1,9 @@
 from datetime import datetime
 
-def test_get_tasks(client, prepare_user, login_user):
+def test_get_tasks(client, prepare_data, prepare_user, login_user):
 
     task = {
-        "ToDo" : "first todo edited",
+        "ToDo" : "to be edited",
         "Created": datetime.now().strftime("%Y-%m-%d"),
         "status" : False,
         "id" : 3333
