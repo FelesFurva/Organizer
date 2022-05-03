@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_login import login_user, logout_user
-from flask_login.utils import login_required
+from flask_login.utils import login_required, current_user
 from project import db
 from project.models import User
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -31,7 +31,7 @@ def signup():
 
     db.session.add(user)
     db.session.commit()
-    return {"id": user.id, "message": "Account successfully created"}, 201
+    return {"username": user.username, "message": "Account successfully created"}, 201
 
 
 @auth.route("/login", methods=["POST"])
@@ -43,20 +43,22 @@ def login():
     if not user or not check_password_hash(user.password_hash, password):
         return {"message": "Invalid username/password combination"}, 401
     login_user(user)
-    return {"id": user.id, "message": "Login successful"}, 200
+    return {"username": user.username, "message": "Login successful"}, 200
 
 
-@auth.route("/user/<id>", methods=["PUT"])
+@auth.route("/user", methods=["PUT"])
 @login_required
-def edit_user(id):
+def edit_user():
 
-    user = User.query.get_or_404(id)
-    user.user = request.json.get("username", user.username)
-    #if user.username and not user.username.strip():
-    #    return {"message": "Input new username"}, 400
+    username = request.json.get("username")
+    if not username or not username.strip():
+        return {"message": "input new username"}, 400
+
+    user = User.query.get_or_404(current_user.id)
+    user.username = username
     db.session.commit()
 
-    return {"id": user.id, "username": user.username}, 201
+    return {"username": user.username}, 201
 
 
 @auth.route("/logout", methods=["GET"])
@@ -66,11 +68,11 @@ def logout():
     return {"message": "Logout successful"}, 200
 
 
-@auth.route("/user/<id>", methods=["DELETE"])
+@auth.route("/user", methods=["DELETE"])
 @login_required
-def delete_user(id):
+def delete_user():
 
-    user = User.query.get_or_404(id)
+    user = User.query.get_or_404(current_user.id)
 
     db.session.delete(user)
     db.session.commit()

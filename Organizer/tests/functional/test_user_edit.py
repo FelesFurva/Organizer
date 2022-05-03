@@ -1,13 +1,14 @@
 import pytest
 
 testdata = [
-    (33333, "Charlly", 201),
-    (1111, "Charlly", 404)
+    ("Charlly", 201),
+    ("", 400),
+    (" ", 400)
 ]
 
-@pytest.mark.parametrize("id,newusername,code", testdata)
-def test_edit_of_existing_user(id, newusername, code, client, prepare_user, login_user):
+@pytest.mark.parametrize("newusername,code", testdata)
+def test_edit_of_existing_user(newusername, code, client, prepare_user, login_user):
     response = client.put(
-        f'/user/{id}', json={"username": newusername}, follow_redirects=True
+        '/user', json={"username": newusername}, follow_redirects=True
     )
     assert code == response.status_code

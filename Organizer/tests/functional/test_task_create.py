@@ -5,3 +5,8 @@ def test_create_task(client, prepare_user, login_user):
     response = client.post("/task", json={"task": "first todo"}, follow_redirects=True)
     assert 201 == response.status_code
     assert isinstance(response.json["id"], Number)
+
+
+def test_create_task_noauth(client, prepare_user):
+    response = client.post("/task", json={"task": "first todo"}, follow_redirects=True)
+    assert 401 == response.status_code

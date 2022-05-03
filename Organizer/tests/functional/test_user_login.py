@@ -1,5 +1,4 @@
 import pytest
-from numbers import Number
 
 testdata = [
     ("c@d.com", "123456", 200, True),
@@ -12,8 +11,3 @@ testdata = [
 def test_user_login_post(email, password, code, isnumber, client, prepare_user):
     response = client.post("/login", json={"email": email, "password": password})
     assert code == response.status_code
-    hasId = bool(
-        response.json.get('id', False) and isinstance(response.json["id"], Number)
-    )
-
-    assert hasId == isnumber
