@@ -50,6 +50,28 @@ def prepare_data(task_manager):
     task_manager.delete(7777)
     task_manager.delete(3333)
 
+@pytest.fixture()
+def prepare_task_list(prepare_task):
+    def _prepare_task_list(tasks):
+        task_ids = []
+        for task in tasks:
+            task_ids.append(prepare_task(task["id"], task["ToDo"], 33333))
+        return task_ids
+    yield _prepare_task_list
+
+@pytest.fixture()
+def prepare_task(task_manager):
+    task_ids = []
+
+    def _prepare_task(id, task, user_id):
+        task_id = task_manager.create(id, task, user_id)
+        task_ids.append(task_id)
+        return task_id
+
+    yield _prepare_task
+
+    for task_id in task_ids:
+        task_manager.delete(task_id)
 
 @pytest.fixture(scope="session", autouse=True)
 def callattr_ahead_of_alltests(request):

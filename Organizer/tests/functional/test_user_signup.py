@@ -19,6 +19,9 @@ def test_create_user(username, email, password, code, isnumber, client, user_man
     }
     response = client.post("/signup", json=user)
     assert code == response.status_code
+    if code == 200:
+        response = client.post("/login", json={"email": email, "password": password})
+        assert 401 == response.status_code
     user_id = user_manager.get_id_by_username(username)
     if user_id:
         user_manager.delete(user_id)

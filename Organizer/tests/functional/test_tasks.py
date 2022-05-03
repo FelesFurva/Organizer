@@ -1,14 +1,21 @@
 from datetime import datetime
 
-def test_get_tasks(client, prepare_data, prepare_user, login_user):
+import pytest
 
-    task = {
+testdata = [
+    ([{
         "ToDo" : "to be edited",
         "Created": datetime.now().strftime("%Y-%m-%d"),
         "status" : False,
         "id" : 3333
-    }
+    }], 200),
+    ([], 200)
+]
 
+@pytest.mark.parametrize("tasks, code", testdata)
+def test_get_tasks(tasks, code, client, prepare_task_list, prepare_user, login_user):
+    prepare_task_list(tasks)
     response = client.get("/tasks", follow_redirects=True)
-    assert response.status_code == 200
-    assert task in response.json["Tasks"]
+    assert code == response.status_code
+    assert tasks == response.json["Tasks"]
+    

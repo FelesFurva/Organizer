@@ -11,7 +11,12 @@ class TaskManager(object):
         )
         db.session.add(task)
         db.session.commit()
+        return id
 
     def delete(self, id):
         db.session.query(Task).filter(Task.id == id).delete()
+        db.session.commit()
+
+    def delete_all(self):
+        db.session.query(Task).delete()
         db.session.commit()
