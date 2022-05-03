@@ -20,3 +20,6 @@ class TaskManager(object):
     def delete_all(self):
         db.session.query(Task).delete()
         db.session.commit()
+
+    def get_task_by_id(self, id):
+        return db.session.query(Task).filter(Task.id == id).first()
