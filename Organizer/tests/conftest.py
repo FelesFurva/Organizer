@@ -43,14 +43,6 @@ def task_manager():
     return TaskManager()
 
 @pytest.fixture()
-def prepare_data(task_manager):
-    task_manager.create(7777, "to be deleted", 33333)
-    task_manager.create(3333, "to be edited", 33333)
-    yield
-    task_manager.delete(7777)
-    task_manager.delete(3333)
-
-@pytest.fixture()
 def prepare_task_list(prepare_task):
     def _prepare_task_list(tasks):
         task_ids = []

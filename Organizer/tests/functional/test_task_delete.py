@@ -1,8 +1,16 @@
-def test_deletion_of_existing_task(client, prepare_data, prepare_user, login_user):
-    response = client.delete("/task/7777", follow_redirects=True)
-    assert 204 == response.status_code
+import pytest
+from tests.conftest import task_manager
 
+testdata = [
+    ({"ToDo" : "to be deleted", "id" : 7777}, 204),
+    (None, 404)
+]
 
-def test_deletion_of_not_existing_task(client, prepare_user, login_user):
-    response = client.delete("/task/1111", follow_redirects=True)
-    assert 404 == response.status_code
+@pytest.mark.parametrize("task, code", testdata)
+def test_deletion_of_existing_task(task, code, client, task_manager, prepare_task, prepare_user, login_user):
+    if task:
+        task_id = prepare_task(task["id"], task["ToDo"], 33333)
+    else:
+        task_id = -1
+    response = client.delete(f"/task/{task_id}", follow_redirects=True)
+    assert code == response.status_code
